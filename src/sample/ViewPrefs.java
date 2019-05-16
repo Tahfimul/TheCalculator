@@ -64,8 +64,8 @@ public class ViewPrefs extends Pref implements Prefs {
     {
         createTopContent();
 
-        //Here we initialize the Controller class by passing the TextArea (outputArea) view that was created when calling the
-        // createTopContent method. In this TextArea view the results will be output.
+        //Here we initialize the Controller class object by passing the TextArea (outputArea) view (that was created when calling the
+        // createTopContent method). In this TextArea view the results will be output.
         controller = new Controller((TextArea) topContent.getChildren().get(0));
 
         createLeftContent();
@@ -118,6 +118,13 @@ public class ViewPrefs extends Pref implements Prefs {
 
         outputArea.setMaxHeight(100);
 
+        //For this  content of the parentView, we use the VBox "layout" to place the buttons.
+        //It places views in a horizontal fashion one after another as shown in the gist diagram right below
+        //---------------------------------------------------------------------------------------
+        //|                                        HBox                                         |
+        //|                      | Item A | |Item B| | Item C | |Item W|                        |
+        //|                                                                                     |
+        //|-------------------------------------------------------------------------------------|
         topContent = new HBox();
         topContent.getChildren().add(outputArea);
     }
@@ -154,6 +161,9 @@ public class ViewPrefs extends Pref implements Prefs {
         multBtn.setMaxWidth(Double.MAX_VALUE);
         divBtn.setMaxWidth(Double.MAX_VALUE);
 
+        //For this left content of the parentView, we use the VBox "layout" to place the buttons.
+        //It places views in a vertical fashion one after another as shown in the Left Content gist diagram right above
+        //this method.
         leftContent = new VBox(4);
         leftContent.setPrefWidth(50);
         leftContent.setSpacing(10);
@@ -320,7 +330,6 @@ public class ViewPrefs extends Pref implements Prefs {
         // Set the title of the Stage
         stage.setTitle("The Calculator");
 
-        // Display the Stage
         stage.setMaxWidth(300);
     }
 

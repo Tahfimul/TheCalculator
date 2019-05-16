@@ -5,6 +5,9 @@ import javafx.scene.control.TextArea;
 
 import java.util.ArrayList;
 
+//This Controller class is responsible for controlling the behavior of the application such as the action
+//for btnOnClickListener
+
 public class Controller extends Pref implements Controls {
 
     private TextArea o;
@@ -44,6 +47,10 @@ public class Controller extends Pref implements Controls {
     @Override
     public void setEClickListener(Button E) {
         E.setOnAction(actionEvent -> {
+            //Since this class is a child of (extends) Pref abstract class and we set the
+            //current viewModel class(recall ViewPrefs class) by calling setCurrPref in
+            //Main class when setting the Stage, we can now refer to that Stage and exit
+            //the window. The close method is part of the Stage class.
             getCurrPref().close();
         });
     }
@@ -58,12 +65,11 @@ public class Controller extends Pref implements Controls {
     @Override
     public String getPreviousResult() {
 
-        //Control statement used to point to the proper stored location of the result
+        //Control statements used to point to the proper stored location of the result
         //in storedResults ArrayList.
         if(isShowingResult)
             if (showingStoredResultIndex>0)
                 showingStoredResultIndex--;
-
 
         else
             showingStoredResultIndex = storedResults.size()-1;
@@ -86,7 +92,7 @@ public class Controller extends Pref implements Controls {
         o.setText(getOMsg()+msg);
     }
 
-    //used to "clear" and "push" new text in outputArea TextArea
+    //used to "clear" and "push" new text in/to outputArea TextArea
     @Override
     public void writeOMsg(String msg) {
         o.setText(msg);
@@ -127,7 +133,7 @@ public class Controller extends Pref implements Controls {
                             //if the next character is another arithmetic operator, then compute the arithmetic operation for the currently stored
                             //upperbound and lowerbound StringBuilder values and append result to upperbound StringBuilder
                             //Ex. curr_operation = + | input = 22+32x50 | upperBound = 22| lowerBound = 32 |next operator is x.
-                            //So compute 22+32 = 54 & store 54 to upperBound
+                            //So compute 22+32 = 54 & append 54 to upperBound
                             if (nextC == '+' || nextC == '-' || nextC == 'x' || nextC == '/') {
                                 operationInProgress = false;
                                 String tempComputedVal = compute(curr_operation, Double.valueOf(topTempVal.toString()), Double.valueOf(bottomTempVal.toString()));
@@ -139,7 +145,7 @@ public class Controller extends Pref implements Controls {
                         //Otherwise, If we reached the last character from input, then compute the arithmetic operation for the currently stored
                         //upperbound and lowerbound StringBuilder values and append result to upperbound StringBuilder
                         //Ex. curr_operation = x | input = 22+32x50 | upperBound = 54  |lowerBound = 50
-                        //So computer 54x50 = 2700 & store 2700 to upperBound
+                        //So computer 54x50 = 2700 & append 2700 to upperBound
                         else if(charPos == input.length() - 1)
                         {
                             operationInProgress = false;
@@ -151,11 +157,11 @@ public class Controller extends Pref implements Controls {
 
                     }
                     else
-                        //If we didn't already detect an arithmetic operator, then store character to upperBound
+                        //If we didn't already detect an arithmetic operator, then append character to upperBound
                         topTempVal.append(c);
                 }
                 else {
-                    //If we detect a new operator, store operator to curr_operation
+                    //If we detect a new operator, set curr_operation to operator and
                     curr_operation = c;
                     operationInProgress = true;
                 }
@@ -163,9 +169,12 @@ public class Controller extends Pref implements Controls {
                 charPos++;
             }
 
+            //Set value in upperBound StringBuilder to output
             output = topTempVal.toString();
             topTempVal.setLength(0);
         }
+        //Store most recent output to be used to store in storedResults ArrayList if user clicks Memory button to store
+        //recent result;
         curr_result = Double.valueOf(output);
         return output;
     }

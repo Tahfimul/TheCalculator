@@ -2,8 +2,9 @@ package sample;
 
 import javafx.stage.Stage;
 
-//This class is responsible for holding the current stage that is presented
-//It is used to close the window of the application from the Controller class.
+//This abstract class is responsible for holding the current stage that is presented
+//It is used to close the window of the application from the Controller class whenever
+//Exit button is clicked
 
 public abstract class Pref {
 
